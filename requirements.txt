@@ -1,0 +1,10 @@
+Flask
+Flask-Bootstrap
+Flask-WTF
+html5lib
+requests
+WTForms
+youtube_dl
+flask_redis
+flask_session
+redis
