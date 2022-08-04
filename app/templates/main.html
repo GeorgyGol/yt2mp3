@@ -21,8 +21,8 @@ Youtube2MP3
 
 {% block head %}
 {{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='raiders.gif') }}" type="image/x-icon>">
-<link rel="icon" href="{{ url_for('static', filename='raiders.gif') }}" type="image/x-icon>">
+    <link rel="shortcut icon" href="{{ proxy_uri }}static/raiders.gif" type="image/x-icon>">
+    <link rel="icon" href="{{ proxy_uri }}static/raiders.gif" type="image/x-icon>">
 {% endblock %}
 
 {% block navbar %}
@@ -34,25 +34,25 @@ Youtube2MP3
       <div class="collapse navbar-collapse" id="videoq">
         <ul class="navbar-nav me-auto mb-2 mb-lg-3">
           <li class="nav-item">
-            <a class="navbar-brand" href="/tiny">Tiny</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}tiny">Tiny</a>
           </li>
           <li class="nav-item">
-            <a class="navbar-brand" href="/150">150</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}150">150</a>
           </li>
           <li class="nav-item">
-            <a class="navbar-brand" href="/250">250</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}250">250</a>
           </li>
             <li class="nav-item">
-            <a class="navbar-brand" href="/360">360</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}360">360</a>
           </li>
             <li class="nav-item">
-            <a class="navbar-brand" href="/480">480</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}">480</a>
           </li>
             <li class="nav-item">
-            <a class="navbar-brand" href="/720">720</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}720">720</a>
           </li>
           <li class="nav-item">
-            <a class="navbar-brand" href="/best">Best</a>
+            <a class="navbar-brand" href="{{ proxy_uri }}best">Best</a>
           </li>
 
         </ul>
@@ -64,7 +64,8 @@ Youtube2MP3
 
 {% block content %}
 <div class="container container-fluid">
-    <h2>YOUTUBE --> MP3 (<small>video quality = {{ videoq }}</small>)</h2>
+    <h2><img src="{{ proxy_uri }}static/raiders.gif">&nbsp;YOUTUBE --> MP3 (<small>video quality = {{ videoq }}</small>)</h2>
+
     <p class="panel-info">Версия {{ version }}</p>
     <div class="container panel-body">
         <form method="POST">
@@ -109,7 +110,7 @@ Youtube2MP3
 
 <script>
 (function worker() {
-  $.get('/data', function(data) {
+  $.get('{{ proxy_uri }}data', function(data) {
     $('#time').html(data);    // update page with new data
     setTimeout(worker, 1000); // run `worker()` again after 1000ms (1s)
   });

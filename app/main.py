@@ -18,10 +18,17 @@ def down_load(url, sid, keep_video, form, video_quality, start_from, stop_at):
         rds.set(subkeys.status, value='STOPED')
 
 
+def get_proxy_pref():
+    try:
+        return request.headers['X-Proxy-URI']
+    except KeyError:
+        return url_for('index')
+
 @app.route('/', methods =['GET', 'POST'], defaults={'videq':'480'})
 @app.route('/<videq>', methods =['GET', 'POST'])
 def index(videq):
     dwn_form = DWNForm()
+    request_uri = get_proxy_pref()
 
     if request.method == 'POST':
         if dwn_form.validate_on_submit():
@@ -38,6 +45,7 @@ def index(videq):
                 dwn_form.submit.render_kw['disabled'] = True
                 p.daemon = True
                 p.start()
+
                 try:
                     if session['cur_proc'] != -1:
                         shutil.rmtree(os.path.join(BASE_MP3_DIR, session['cur_proc']), ignore_errors=True)
@@ -60,7 +68,7 @@ def index(videq):
                 session['cur_proc'] = -1
 
 
-    return render_template('main.html', version = __version__, d_form=dwn_form, videoq=videq)
+    return render_template('main.html', version = __version__, d_form=dwn_form, videoq=videq, proxy_uri = request_uri)
 
 @app.route('/data')
 def data():
@@ -134,7 +142,8 @@ def stoped():
             chp.terminate()
     session['cur_proc'] = -1
     shutil.rmtree(BASE_MP3_DIR, ignore_errors=True)
-    return  redirect(url_for('index'))
+    url = get_proxy_pref()
+    return  redirect(url)
 
 if __name__ == '__main__':
 
