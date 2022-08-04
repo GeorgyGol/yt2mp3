@@ -249,9 +249,9 @@ def download1(strUrl=None, keep_video=False, audio_format='mp3',
                     ydl.download([s['url']])
                     rds.set_file(filename=filename, status='done')
                 except youtube_dl.utils.DownloadError as yterr:
-                    rds.set_file(filename=filename, status='error (ydl)', info=yterr)
-                except BaseException as err:
-                    rds.set_file(filename=filename, status='error (base)', info=err)
+                    rds.set_file(filename=filename, status='error', info='download error')
+                except:
+                    rds.set_file(filename=filename, status='error', info='some base error')
             else:
                 rds.set_file(filename=filename, status='omited', info='by user')
 
